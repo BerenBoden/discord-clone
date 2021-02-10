@@ -43,21 +43,21 @@ const Sidebar = () => {
                     <p>Stream</p>
                 </div>
 
-                <div className="sidebar__voiceIsons">
+                <div className="sidebar__voiceIcons">
                     <InfoOutlinedIcon/>
                     <CallIcon />
                 </div>
-                <div className="sidebar__profile">
-                    <Avatar />
-                    <div className="sidebar__profileInfo">
-                        <h3>@username</h3>
-                        <p>#myId</p>
-                    </div>
-                    <div className="sidebar__profileIcons">
-                        <MicIcon />
-                        <HeadsetIcon />
-                        <SettingsIcon />
-                    </div>
+            </div>
+            <div className="sidebar__profile">
+                <Avatar src="https://yt3.ggpht.com/yti/ANoDKi7Q6BTSUGkX5Y9CrCk6bI1GmpXpqWMFpZ38p4rElw=s88-c-k-c0x00ffffff-no-rj-mo"/>
+                <div className="sidebar__profileInfo">
+                    <h3>@username</h3>
+                    <p>#myId</p>
+                </div>
+                <div className="sidebar__profileIcons">
+                    <MicIcon />
+                    <HeadsetIcon />
+                    <SettingsIcon />
                 </div>
             </div>
         </div>
