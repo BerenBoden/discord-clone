@@ -1,0 +1,81 @@
+:root {
+    --background: #2f3135;
+    --iconGreen: #4fb185;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 0.25;
+    height: 100vh;
+    background-color: var(--background);
+}
+
+.sidebar__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--background);
+    color: #fff;
+    border-bottom: 3px solid #26282c;
+}
+
+.sidebar__channels {
+    flex: 1;
+}
+
+.sidebar__addChannel {
+    cursor: pointer;
+}
+
+.sidebar__addChannel:hover {
+    color: #fff;
+}
+
+.sidebar__channelsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--background);
+    color: gray;
+}
+
+.sidebar__header {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar__voice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: gray;
+    background-color: var(--background);
+    padding: 10px;
+    border-top: 1px sloid gray;
+}
+
+.sidebar__voiceInfo {
+    flex: 1;
+    padding: 10px;
+}
+
+.sidebar__voiceIcon {
+    color: var(--iconGreen);
+}
+
+.sidebar__voiceInfo > h3 {
+    color: var(--iconGreen);
+}
+
+.sidebar__voiceInfo > p {
+    font-size: smaller;
+
+}
+
+.sidebar__voiceIcons > .MuiSvgIcon-root {
+    padding: 10px;
+}
+
