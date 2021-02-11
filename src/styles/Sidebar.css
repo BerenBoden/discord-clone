@@ -57,6 +57,16 @@
     border-top: 1px sloid gray;
 }
 
+.sidebar__signOut {
+    font-size: large;
+    text-transform: capitalize;
+    display: flex;
+    cursor: pointer;
+    color: #FFF;
+    align-items: center;
+    padding: 10px;
+}
+
 .sidebar__voiceInfo {
     flex: 1;
     padding: 10px;

@@ -5,7 +5,7 @@ import '../../styles/Login.css'
 
 const Login = () => {
     //Handles GoogleLogin
-    const signInHandler = e => {
+    const handleSignIn = e => {
         auth.signInWithPopup(provider).catch(error => alert(error.message))
     }
 
@@ -15,7 +15,7 @@ const Login = () => {
                 <img src="https://i.redd.it/0utml758tfrx.png" alt="logo"/>
             </div>
 
-            <Button onClick={signInHandler}>Sign In</Button>
+            <Button onClick={handleSignIn}>Sign In</Button>
         </div>
     )
 }

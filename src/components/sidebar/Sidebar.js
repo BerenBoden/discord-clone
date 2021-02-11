@@ -1,67 +1,104 @@
-import React from 'react'
-import '../../styles/Sidebar.css'
-import AddIcon from '@material-ui/icons/Add';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SignalCellularAltIcon from '@material-ui/icons/SignalCellularAlt';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import MicIcon from '@material-ui/icons/Mic';
-import HeadsetIcon from '@material-ui/icons/Headset';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CallIcon from '@material-ui/icons/Call';
-import SidebarChannel from './SidebarChannel';
-import { Avatar } from '@material-ui/core';
+import React, { useState, useEffect } from "react";
+import "../../styles/Sidebar.css";
+import AddIcon from "@material-ui/icons/Add";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import SignalCellularAltIcon from "@material-ui/icons/SignalCellularAlt";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import MicIcon from "@material-ui/icons/Mic";
+import HeadsetIcon from "@material-ui/icons/Headset";
+import SettingsIcon from "@material-ui/icons/Settings";
+import CallIcon from "@material-ui/icons/Call";
+import SidebarChannel from "./SidebarChannel";
+import { Avatar } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/userSlice";
+import { auth } from "../../firebase";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import db from "../../firebase";
 
 const Sidebar = () => {
-    return (
-        <div className="sidebar">
-            
-            <div className="sidebar__top">
-                <h3>Discord</h3>
-                <ExpandMoreIcon />
-            </div>
+  const user = useSelector(selectUser);
+  const [channels, setChannels] = useState([]);
 
-            <div className="sidebar__channels">
-                <div className="sidebar__channelsHeader">
-                    <div className="sidebar__header">
-                        <ExpandMoreIcon />
-                        <h4>Text channels</h4>
-                    </div>
-                    <AddIcon className="sidebar__addChannel"/>
-                </div>
-                <div className="sidebar__channelsList">
-                    <SidebarChannel />
-                    <SidebarChannel />
-                    <SidebarChannel />
-                    <SidebarChannel />
-                </div>
-            </div>
+  useEffect(() => {
+    db.collection("channels").onSnapshot((snapshot) =>
+      setChannels(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          channel: doc.data(),
+        }))
+      )
+    );
+  }, []);
 
-            <div className="sidebar__voice">
-                <SignalCellularAltIcon className="sidebar__voiceIcon" fontSize="large"/>
-                <div className="sidebar__voiceInfo">
-                    <h3>Voice Connected</h3>
-                    <p>Stream</p>
-                </div>
+  const handleAddChannel = () => {
+    const channelName = prompt("Enter a new channel name");
 
-                <div className="sidebar__voiceIcons">
-                    <InfoOutlinedIcon/>
-                    <CallIcon />
-                </div>
-            </div>
-            <div className="sidebar__profile">
-                <Avatar src="https://yt3.ggpht.com/yti/ANoDKi7Q6BTSUGkX5Y9CrCk6bI1GmpXpqWMFpZ38p4rElw=s88-c-k-c0x00ffffff-no-rj-mo"/>
-                <div className="sidebar__profileInfo">
-                    <h3>@username</h3>
-                    <p>#myId</p>
-                </div>
-                <div className="sidebar__profileIcons">
-                    <MicIcon />
-                    <HeadsetIcon />
-                    <SettingsIcon />
-                </div>
-            </div>
+    if (channelName) {
+      db.collection("channels").add({
+        channelName: channelName,
+      });
+    }
+  };
+
+  return (
+    <div className="sidebar">
+      <div className="sidebar__top">
+        <h3>Discord</h3>
+        <ExpandMoreIcon />
+      </div>
+
+      <div className="sidebar__channels">
+        <div className="sidebar__channelsHeader">
+          <div className="sidebar__header">
+            <ExpandMoreIcon />
+            <h4>Text channels</h4>
+          </div>
+          <AddIcon onClick={handleAddChannel} className="sidebar__addChannel" />
         </div>
-    )
-}
+        <div className="sidebar__channelsList">
+          {channels.map(({ id, channel }) => (
+            <SidebarChannel key={id} id={id} channelName={channel.channelName}/>
+          ))}
+        </div>
+      </div>
 
-export default Sidebar
+      <div className="sidebar__voice">
+        <SignalCellularAltIcon
+          className="sidebar__voiceIcon"
+          fontSize="large"
+        />
+        <div className="sidebar__voiceInfo">
+          <h3>Voice Connected</h3>
+          <p>Stream</p>
+        </div>
+
+        <div className="sidebar__voiceIcons">
+          <InfoOutlinedIcon />
+          <CallIcon />
+        </div>
+      </div>
+      <div className="sidebar__profile">
+        <Avatar src={user.photo} />
+        <div className="sidebar__profileInfo">
+          <h3>{user.displayName}</h3>
+          {/** Gets UID and uses first 5 numbers for randomly generated user ID */}
+          <p>#{user.uid.substring(0, 5)}</p>
+        </div>
+        <div className="sidebar__profileIcons">
+          <MicIcon />
+          <HeadsetIcon />
+          <SettingsIcon />
+        </div>
+      </div>
+      <div onClick={() => auth.signOut()} className="sidebar__signOut">
+        <div>
+          <p style={{ fontWeight: "500" }}>sign out&nbsp;&nbsp;</p>
+        </div>
+        <ExitToAppIcon />
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;

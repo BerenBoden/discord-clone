@@ -7,12 +7,12 @@ import HelpRoundedIcon from "@material-ui/icons/HelpRounded";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import "../../styles/ChatHeader.css";
 
-const ChatHeader = () => {
+const ChatHeader = ({ channelName }) => {
   return (
     <div className="chatHeader">
       <div className="chatHeader__left">
         <h3>
-          <span className="chatHeader__hash">#</span>Test channel name
+          <span className="chatHeader__hash">#</span>{channelName}
         </h3>
       </div>
       <div className="chatHeader__right">
